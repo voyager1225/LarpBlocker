@@ -1,0 +1,1494 @@
+/* Skidded this from another project /*
+
+/* Animation Easing Tokens */
+:root {
+  --md-transition-standard: 300ms cubic-bezier(0.2, 0, 0, 1);
+  --md-transition-spring: 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  --md-sys-color-primary: #81C784;
+  --md-sys-color-on-primary: #123817;
+  --md-sys-color-primary-container: #285C2D;
+  --md-sys-color-on-primary-container: #C8E6C9;
+  --md-sys-color-surface: #0C160F;
+  --md-sys-color-on-surface: #DFE8E0;
+  --md-sys-color-surface-variant: #3E4A40;
+  --md-sys-color-on-surface-variant: #C0CFC2;
+  --md-sys-color-surface-container-low: #142018;
+  --md-sys-color-surface-container-high: #1E2A21;
+  --md-sys-color-outline: #8DA293;
+  --md-sys-color-outline-variant: #3E4A40;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, Roboto, sans-serif;
+}
+
+body {
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header {
+  text-align: center;
+  animation: fadeInDown 0.6s var(--md-transition-standard);
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.brand-mark {
+  color: var(--md-sys-color-primary);
+  font-size: 1em;
+  vertical-align: -0.12em;
+}
+
+.header p {
+  font-size: 0.875rem;
+  color: var(--md-sys-color-on-surface-variant);
+  margin-top: 0.25rem;
+}
+
+/* Button Interactivity */
+.btn-pick, .play-btn {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.1s ease-out,
+              box-shadow 0.1s ease-out,
+              border-radius 0.2s cubic-bezier(0, 0, 0.2, 1);
+  transition-delay: 0s;
+  will-change: transform;
+}
+
+.btn-pick {
+  padding: 0.875rem 2rem;
+}
+
+.btn-pick:hover, .play-btn:hover {
+  border-radius: 100px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+.btn-pick:active, .play-btn:active {
+  transform: scale(0.96) translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Grid Layout & Animations */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+/* Card Hover - Instant Response */
+.game-card {
+  background-color: var(--md-sys-color-surface-container-low);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  
+  /* Instant entrance without animation delays blocking interaction */
+  animation: fadeInUp 0.2s cubic-bezier(0, 0, 0.2, 1) forwards;
+  
+  /* Fast 120ms transition for instant hover feedback */
+  transition: transform 0.12s ease-out,
+              border-color 0.12s ease-out,
+              box-shadow 0.12s ease-out;
+  transition-delay: 0s;
+  will-change: transform;
+}
+
+/* Remove staggered entry delays so all cards are interactive immediately */
+.game-card:nth-child(1),
+.game-card:nth-child(2),
+.game-card:nth-child(3) { 
+  animation-delay: 0s; 
+}
+
+.game-card:hover {
+  border-color: var(--md-sys-color-outline);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.game-card:active {
+  transform: translateY(-1px) scale(0.98);
+  transition-duration: 0.05s; /* Instant feedback on click */
+}
+
+/* Card Image Frame Zoom Effect */
+.card-media {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--md-sys-color-surface-variant);
+  overflow: hidden;
+}
+
+/* Instant Image Zoom on Hover */
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.15s ease-out;
+  transition-delay: 0s;
+  will-change: transform;
+}
+
+.game-card:hover .card-media img {
+  transform: scale(1.06);
+}
+
+.game-card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.game-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.game-desc {
+  font-size: 0.85rem;
+  color: var(--md-sys-color-on-surface-variant);
+  line-height: 1.3;
+}
+
+/* Snappy, performance-optimized Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8); /* Solid overlay for better performance */
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  
+  /* Snappy 150ms timing with GPU hardware acceleration */
+  transition: opacity 0.15s cubic-bezier(0, 0, 0.2, 1),
+              visibility 0.15s cubic-bezier(0, 0, 0.2, 1);
+  will-change: opacity, visibility;
+}
+
+.modal.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-content {
+  position: relative;
+  z-index: 2;
+  width: 90%;
+  max-width: 520px;
+  min-height: 380px;
+  padding: 2.5rem 2rem;
+  border-radius: 28px;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  text-align: center;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  /* Minimal scale shift (0.97 -> 1) prevents jank while opening */
+  transform: scale(0.97) translateY(8px);
+  transition: transform 0.15s cubic-bezier(0, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.modal.active .modal-content {
+  transform: scale(1) translateY(0);
+}
+
+/* Background image optimized for background performance */
+.modal-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.25); /* Removed blur filter during transition */
+  transform: scale(1.05);
+  transition: filter 0.2s ease;
+}
+
+.modal.launching .modal-bg {
+  filter: brightness(0.15) blur(2px);
+  transform: scale(1.2);
+}
+
+#modalDetails, 
+.launch-state {
+  position: relative;
+  z-index: 1;
+}
+
+#modalImg {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/* Launching State Animations */
+.launch-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  animation: modalScaleUp 0.4s var(--md-transition-standard);
+}
+
+.big-picture-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.launch-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.spinning {
+  animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.play-btn {
+  margin-top: 1.25rem;
+  padding: 0.75rem 1.75rem 0.75rem 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  background: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.85;
+  
+  /* Keeps 0.2s ease for all properties so they execute in sync */
+  transition: opacity 0.2s ease, transform 0.2s ease, border-radius 0.2s ease;
+}   
+
+.close-btn:hover {
+  opacity: 1;
+  border-radius: 100px;
+  transform: rotate(90deg);
+}
+
+.audio-toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+  transition: opacity 0.3s var(--md-transition-standard), transform 0.3s var(--md-transition-standard);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.audio-toast.hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+/* Keyframes */
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalScaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.material-symbols-rounded {
+  font-size: 20px;
+  vertical-align: middle;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Navigation Buttons below Header */
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 100px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface-variant);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  transition: transform 0.1s ease-out,
+              box-shadow 0.1s ease-out,
+              background-color 0.2s ease,
+              color 0.2s ease;
+}
+
+.nav-btn:hover {
+  background-color: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.nav-btn:active {
+  transform: scale(0.96) translateY(0);
+}
+
+.nav-btn.active {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  border-color: var(--md-sys-color-primary);
+}
+
+/* Settings Page Improvements */
+.settings-section {
+  background-color: var(--md-sys-color-surface-container-low);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--md-sys-color-on-surface);
+}
+
+.section-title h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Form Groups & Text Inputs */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#loggedInView:not(.hidden),
+#loggedOutView:not(.hidden) {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.read-receipts-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.read-receipts-toggle input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--md-sys-color-primary);
+}
+
+.text-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.text-input:focus {
+  border-color: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 2px var(--md-sys-color-primary-container);
+}
+
+/* Profile Section Layout Fixes */
+.profile-upload-container {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 0.25rem;
+}
+
+.avatar-preview {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-surface-variant);
+}
+
+.avatar-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.upload-btn {
+  display: inline-block;
+  font-size: 0.875rem;
+  padding: 0.5rem 1.25rem;
+}
+
+.field-hint {
+  font-size: 0.75rem;
+  color: var(--md-sys-color-on-surface-variant);
+  margin: 0;
+}
+
+.message-color-grid {
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+}
+
+.message-palette-card {
+  min-width: 0;
+  min-height: 78px;
+}
+
+.message-color-preview-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+
+.message-bubble-preview {
+  display: flex;
+  max-width: min(100%, 360px);
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.75rem 1rem;
+  border-radius: 16px 16px 16px 4px;
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.message-bubble-preview strong {
+  font-size: 0.75rem;
+}
+
+.account-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Theme Selector Styling Reset */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.75rem;
+}
+
+.palette-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background-color: var(--md-sys-color-surface-container-high);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  cursor: pointer;
+  color: var(--md-sys-color-on-surface);
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: transform 0.12s ease-out, border-color 0.12s ease;
+}
+
+.palette-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--md-sys-color-outline);
+}
+
+.palette-card.active {
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+
+.forest-swatch { background: linear-gradient(135deg, #285C2D 50%, #C8E6C9 50%); }
+
+/* --- Form Groups & Layout Spacing --- */
+.settings-section {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between each form element */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Space between label and input/container */
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* --- Profile Picture Upload Container --- */
+.profile-upload-container {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Clean horizontal space between avatar and upload button */
+  padding: 4px 0;
+}
+
+.avatar-preview {
+  width: 80px;
+  height: 80px;
+  min-width: 80px; /* Prevents shrink on small screens */
+  min-height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Keeps image aspect ratio intact */
+  display: block;
+}
+
+.upload-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.upload-btn {
+  display: inline-block;
+  cursor: pointer;
+  padding: 8px 16px;
+  text-align: center;
+}
+
+.field-hint {
+  font-size: 0.825rem;
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* --- Action Buttons Spacing --- */
+.account-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px; /* Extra room above action buttons */
+}
+
+/* Animation Easing Tokens */
+:root {
+  --md-transition-standard: 300ms cubic-bezier(0.2, 0, 0, 1);
+  --md-transition-spring: 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, Roboto, sans-serif;
+}
+
+body {
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header {
+  text-align: center;
+  animation: fadeInDown 0.6s var(--md-transition-standard);
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.header p {
+  font-size: 0.875rem;
+  color: var(--md-sys-color-on-surface-variant);
+  margin-top: 0.25rem;
+}
+
+/* Button Interactivity */
+.btn-pick, .play-btn {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.1s ease-out,
+              box-shadow 0.1s ease-out,
+              border-radius 0.2s cubic-bezier(0, 0, 0.2, 1);
+  transition-delay: 0s;
+  will-change: transform;
+}
+
+.btn-pick {
+  padding: 0.875rem 2rem;
+}
+
+.btn-pick:hover, .play-btn:hover {
+  border-radius: 100px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+.btn-pick:active, .play-btn:active {
+  transform: scale(0.96) translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Grid Layout & Animations */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+/* Card Hover - Instant Response */
+.game-card {
+  background-color: var(--md-sys-color-surface-container-low);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  
+  /* Instant entrance without animation delays blocking interaction */
+  animation: fadeInUp 0.2s cubic-bezier(0, 0, 0.2, 1) forwards;
+  
+  /* Fast 120ms transition for instant hover feedback */
+  transition: transform 0.12s ease-out,
+              border-color 0.12s ease-out,
+              box-shadow 0.12s ease-out;
+  transition-delay: 0s;
+  will-change: transform;
+}
+
+/* Remove staggered entry delays so all cards are interactive immediately */
+.game-card:nth-child(1),
+.game-card:nth-child(2),
+.game-card:nth-child(3) { 
+  animation-delay: 0s; 
+}
+
+.game-card:hover {
+  border-color: var(--md-sys-color-outline);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.game-card:active {
+  transform: translateY(-1px) scale(0.98);
+  transition-duration: 0.05s; /* Instant feedback on click */
+}
+
+/* Card Image Frame Zoom Effect */
+.card-media {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--md-sys-color-surface-variant);
+  overflow: hidden;
+}
+
+/* Instant Image Zoom on Hover */
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.15s ease-out;
+  transition-delay: 0s;
+  will-change: transform;
+}
+
+.game-card:hover .card-media img {
+  transform: scale(1.06);
+}
+
+.game-card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.game-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.game-desc {
+  font-size: 0.85rem;
+  color: var(--md-sys-color-on-surface-variant);
+  line-height: 1.3;
+}
+
+/* Snappy, performance-optimized Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8); /* Solid overlay for better performance */
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  
+  /* Snappy 150ms timing with GPU hardware acceleration */
+  transition: opacity 0.15s cubic-bezier(0, 0, 0.2, 1),
+              visibility 0.15s cubic-bezier(0, 0, 0.2, 1);
+  will-change: opacity, visibility;
+}
+
+.modal.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-content {
+  position: relative;
+  z-index: 2;
+  width: 90%;
+  max-width: 520px;
+  min-height: 380px;
+  padding: 2.5rem 2rem;
+  border-radius: 28px;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  text-align: center;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  /* Minimal scale shift (0.97 -> 1) prevents jank while opening */
+  transform: scale(0.97) translateY(8px);
+  transition: transform 0.15s cubic-bezier(0, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.modal.active .modal-content {
+  transform: scale(1) translateY(0);
+}
+
+/* Background image optimized for background performance */
+.modal-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.25); /* Removed blur filter during transition */
+  transform: scale(1.05);
+  transition: filter 0.2s ease;
+}
+
+.modal.launching .modal-bg {
+  filter: brightness(0.15) blur(2px);
+  transform: scale(1.2);
+}
+
+#modalDetails, 
+.launch-state {
+  position: relative;
+  z-index: 1;
+}
+
+#modalImg {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/* Launching State Animations */
+.launch-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  animation: modalScaleUp 0.4s var(--md-transition-standard);
+}
+
+.big-picture-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.launch-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.spinning {
+  animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.play-btn {
+  margin-top: 1.25rem;
+  padding: 0.75rem 1.75rem 0.75rem 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  background: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.85;
+  
+  /* Keeps 0.2s ease for all properties so they execute in sync */
+  transition: opacity 0.2s ease, transform 0.2s ease, border-radius 0.2s ease;
+}   
+
+.close-btn:hover {
+  opacity: 1;
+  border-radius: 100px;
+  transform: rotate(90deg);
+}
+
+.audio-toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+  transition: opacity 0.3s var(--md-transition-standard), transform 0.3s var(--md-transition-standard);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.audio-toast.hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+/* Keyframes */
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalScaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.material-symbols-rounded {
+  font-size: 20px;
+  vertical-align: middle;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Navigation Buttons below Header */
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 100px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface-variant);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  transition: transform 0.1s ease-out,
+              box-shadow 0.1s ease-out,
+              background-color 0.2s ease,
+              color 0.2s ease;
+}
+
+.nav-btn:hover {
+  background-color: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.nav-btn:active {
+  transform: scale(0.96) translateY(0);
+}
+
+.nav-btn.active {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  border-color: var(--md-sys-color-primary);
+}
+
+/* Settings Page Improvements */
+.settings-section {
+  background-color: var(--md-sys-color-surface-container-low);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--md-sys-color-on-surface);
+}
+
+.section-title h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Form Groups & Text Inputs */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
+
+.text-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.text-input:focus {
+  border-color: var(--md-sys-color-primary);
+  box-shadow: 0 0 0 2px var(--md-sys-color-primary-container);
+}
+
+/* Profile Section Layout Fixes */
+.profile-upload-container {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 0.25rem;
+}
+
+.avatar-preview {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-surface-variant);
+}
+
+.avatar-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.upload-btn {
+  display: inline-block;
+  font-size: 0.875rem;
+  padding: 0.5rem 1.25rem;
+}
+
+.field-hint {
+  font-size: 0.75rem;
+  color: var(--md-sys-color-on-surface-variant);
+  margin: 0;
+}
+
+.account-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Theme Selector Styling Reset */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.75rem;
+}
+
+.palette-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background-color: var(--md-sys-color-surface-container-high);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  cursor: pointer;
+  color: var(--md-sys-color-on-surface);
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: transform 0.12s ease-out, border-color 0.12s ease;
+}
+
+.palette-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--md-sys-color-outline);
+}
+
+.palette-card.active {
+  border-color: var(--md-sys-color-primary);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+
+.forest-swatch { background: linear-gradient(135deg, #285C2D 50%, #C8E6C9 50%); }
+
+/* --- Form Groups & Layout Spacing --- */
+.settings-section {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between each form element */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Space between label and input/container */
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* --- Profile Picture Upload Container --- */
+.profile-upload-container {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Clean horizontal space between avatar and upload button */
+  padding: 4px 0;
+}
+
+.avatar-preview {
+  width: 80px;
+  height: 80px;
+  min-width: 80px; /* Prevents shrink on small screens */
+  min-height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Keeps image aspect ratio intact */
+  display: block;
+}
+
+.upload-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.upload-btn {
+  display: inline-block;
+  cursor: pointer;
+  padding: 8px 16px;
+  text-align: center;
+}
+
+.field-hint {
+  font-size: 0.825rem;
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* --- Action Buttons Spacing --- */
+.account-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px; /* Extra room above action buttons */
+}
+
+/* Disabled / Read-only input styling */
+.text-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--md-sys-color-surface-container-high);
+  border-color: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  box-shadow: none;
+}
+
+/* Prevent hover/focus states on disabled inputs */
+.text-input:disabled:hover,
+.text-input:disabled:focus {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* --- Big Square Navigation Grid (Main Page) --- */
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.nav-btn-square {
+  background-color: var(--md-sys-color-surface-container-low);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 16px;
+  text-decoration: none;
+  color: var(--md-sys-color-on-surface-variant);
+  aspect-ratio: 1 / 1; /* Makes them perfect squares */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  
+  /* Matches your smooth card transitions */
+  transition: transform 0.12s ease-out,
+              border-color 0.12s ease-out,
+              box-shadow 0.12s ease-out,
+              background-color 0.2s ease,
+              color 0.2s ease;
+  will-change: transform;
+}
+
+.nav-btn-square .material-symbols-rounded {
+  font-size: 36px; /* Larger icons for the big tiles */
+  color: var(--md-sys-color-primary);
+  transition: transform 0.2s ease;
+}
+
+.nav-btn-square:hover {
+  border-color: var(--md-sys-color-outline);
+  background-color: var(--md-sys-color-surface-variant);
+  color: var(--md-sys-color-on-surface);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.nav-btn-square:hover .material-symbols-rounded {
+  transform: scale(1.1);
+}
+
+.nav-btn-square:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.policy-content {
+  margin-top: 2rem;
+  line-height: 1.6;
+}
+
+.policy-content > section {
+  margin-top: 1.5rem;
+}
+
+.policy-link {
+  color: var(--md-sys-color-on-primary-container);
+  text-decoration: underline;
+}
+
+.announcement-banner {
+  padding: 1rem;
+  border-radius: 16px;
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  cursor: default;
+}
+
+.announcement-meta {
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.announcement-text {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.upload-btn {
+  color: var(--md-sys-color-on-primary);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

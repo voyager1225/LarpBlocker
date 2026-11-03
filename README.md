@@ -1,2 +1,2 @@
 # LarpBlocker
-Chrome MV3 Ext to larp having a blocker
+Chrome MV3 Ext to larp having an extension filter
