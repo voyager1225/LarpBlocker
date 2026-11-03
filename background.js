@@ -4,7 +4,7 @@ chrome.action.onClicked.addListener((tab) => {
   });
 });
 
-const blocklistPromise = fetch(chrome.runtime.getURL("list/blocklist.json"))
+const defaultBlocklistPromise = fetch(chrome.runtime.getURL("list/blocklist.json"))
   .then((response) => {
     if (!response.ok) {
       throw new Error(`Failed to load blocklist: ${response.status}`);
@@ -12,27 +12,48 @@ const blocklistPromise = fetch(chrome.runtime.getURL("list/blocklist.json"))
 
     return response.json();
   })
-  .then((blocklist) => {
-    if (!Array.isArray(blocklist.blockedUrls)) {
-      throw new Error("The blocklist must contain a blockedUrls array");
-    }
-    if (
-      blocklist.blockedUrls.some(
-        (entry) =>
-          !entry ||
-          typeof entry.url !== "string" ||
-          typeof entry.reason !== "string" ||
-          !entry.reason.trim()
-      )
-    ) {
-      throw new Error("Each blockedUrls entry must contain a URL and a non-empty reason");
-    }
-    if (blocklist.allowedUrls !== undefined && !Array.isArray(blocklist.allowedUrls)) {
-      throw new Error("The blocklist allowedUrls value must be an array");
-    }
+  .then(validateBlocklist);
 
-    return blocklist;
-  });
+function validateBlocklist(blocklist) {
+  if (!Array.isArray(blocklist.blockedUrls)) {
+    throw new Error("The blocklist must contain a blockedUrls array");
+  }
+  if (
+    blocklist.blockedUrls.some(
+      (entry) =>
+        !entry ||
+        typeof entry.url !== "string" ||
+        typeof entry.reason !== "string" ||
+        !entry.reason.trim()
+    )
+  ) {
+    throw new Error("Each blockedUrls entry must contain a URL and a non-empty reason");
+  }
+  if (
+    !Array.isArray(blocklist.allowedUrls) ||
+    blocklist.allowedUrls.some((entry) => typeof entry !== "string")
+  ) {
+    throw new Error("The blocklist must contain an allowedUrls array of URLs");
+  }
+
+  return blocklist;
+}
+
+async function getBlocklist() {
+  const stored = await chrome.storage.local.get("blocklist");
+  if (stored.blocklist) {
+    return validateBlocklist(stored.blocklist);
+  }
+
+  const defaultBlocklist = await defaultBlocklistPromise;
+  const latest = await chrome.storage.local.get("blocklist");
+  if (latest.blocklist) {
+    return validateBlocklist(latest.blocklist);
+  }
+
+  await chrome.storage.local.set({ blocklist: defaultBlocklist });
+  return defaultBlocklist;
+}
 
 function normalizeHostname(hostname) {
   return hostname.toLowerCase().replace(/\.$/, "").replace(/^www\./, "");
@@ -92,7 +113,7 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
 
 async function redirectIfBlocked(tabId, destination) {
   try {
-    const blocklist = await blocklistPromise;
+    const blocklist = await getBlocklist();
     if (findMatchingPattern(destination, blocklist.allowedUrls || [])) {
       return;
     }

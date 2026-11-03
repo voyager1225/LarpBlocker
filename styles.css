@@ -1478,6 +1478,110 @@ body {
   color: var(--md-sys-color-on-primary);
 }
 
+.settings-status {
+  min-height: 1.25rem;
+  color: var(--md-sys-color-on-surface-variant);
+  text-align: center;
+}
+
+.settings-status.error {
+  color: #ff8a80;
+}
+
+.settings-section h2 {
+  margin-bottom: 0.35rem;
+}
+
+.site-entry-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+}
+
+.site-entry-form-blocked {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) auto;
+}
+
+.site-action-button,
+.site-remove-button {
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.site-action-button:hover,
+.site-remove-button:hover {
+  filter: brightness(1.08);
+}
+
+.site-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  list-style: none;
+}
+
+.site-list-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 10px;
+  background-color: var(--md-sys-color-surface);
+}
+
+.blocked-list-item {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) auto;
+}
+
+.site-list-url {
+  overflow-wrap: anywhere;
+}
+
+.blocked-reason-input {
+  min-width: 0;
+  padding: 0.55rem 0.7rem;
+}
+
+.site-remove-button {
+  padding: 0.5rem 0.75rem;
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+}
+
+.empty-list-message {
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 0.9rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .site-entry-form,
+  .site-entry-form-blocked,
+  .blocked-list-item {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .site-action-button,
+  .site-remove-button {
+    width: 100%;
+  }
+}
 
 
 

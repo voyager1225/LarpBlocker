@@ -3,21 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>mocktail.settings</title>
+  <title>LarpBlocker Settings</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
-  <script src="theme.js"></script>
 </head>
 <body>
-
   <div class="container">
-
     <header class="header">
-      <h1><span class="material-symbols-rounded brand-mark" aria-hidden="true">dangerous</span> LarpBlocker</h1>
+      <h1>LarpBlocker</h1>
+      <p>Choose which sites are allowed or blocked.</p>
     </header>
 
-    <section class="settings-section">
+    <p id="settings-status" class="settings-status" role="status" aria-live="polite">Loading your lists…</p>
+
+    <section class="settings-section" aria-labelledby="allowed-heading">
+      <div>
+        <h2 id="allowed-heading">Allowed sites</h2>
+        <p class="field-hint">Only sites in this list are allowed. Subdomains are included.</p>
+      </div>
+      <form id="add-allowed-form" class="site-entry-form">
+        <label class="sr-only" for="allowed-url">Site to allow</label>
+        <input id="allowed-url" class="text-input" type="text" placeholder="example.com" autocomplete="url" required>
+        <button class="site-action-button" type="submit">Allow site</button>
+      </form>
+      <ul id="allowed-list" class="site-list" aria-label="Allowed sites"></ul>
+      <p id="allowed-empty" class="empty-list-message" hidden>No allowed sites yet.</p>
+    </section>
+
+    <section class="settings-section" aria-labelledby="blocked-heading">
+      <div>
+        <h2 id="blocked-heading">Blocked sites</h2>
+        <p class="field-hint">Blocked sites and their reasons. Subdomains are included.</p>
+      </div>
+      <form id="add-blocked-form" class="site-entry-form site-entry-form-blocked">
+        <label class="sr-only" for="blocked-url">Site to block</label>
+        <input id="blocked-url" class="text-input" type="text" placeholder="example.com" autocomplete="url" required>
+        <label class="sr-only" for="blocked-reason">Reason for blocking</label>
+        <input id="blocked-reason" class="text-input" type="text" placeholder="Reason shown on the block page" required>
+        <button class="site-action-button" type="submit">Block site</button>
+      </form>
+      <ul id="blocked-list" class="site-list" aria-label="Blocked sites"></ul>
+      <p id="blocked-empty" class="empty-list-message" hidden>No blocked sites yet.</p>
     </section>
   </div>
+  <script src="settings.js"></script>
 </body>
 </html>
