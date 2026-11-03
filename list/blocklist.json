@@ -1,0 +1,262 @@
+{
+    "allowedUrls": [
+        "https://www.google.com",
+        "https://www.example.com",
+        "https://www.wikipedia.org",
+        "https://www.stackoverflow.com",
+        "*instructure.com",
+        "https://clever.com",
+        "https://www.khanacademy.org"
+    ],
+    "blockedUrls": [
+        {
+            "url": "https://www.facebook.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.twitter.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.instagram.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.reddit.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.youtube.com",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.tiktok.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.github.com",
+            "reason": "it is in the Blocked category."
+        },
+        {
+            "url": "https://www.linkedin.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.pinterest.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.snapchat.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.netflix.com",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.hulu.com",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.twitch.tv",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.discord.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.quora.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.medium.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.flickr.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.vimeo.com",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.tumblr.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.poki.com",
+            "reason": "it is in the Gaming category."
+        },
+        {
+            "url": "https://www.roblox.com",
+            "reason": "it is in the Gaming category."
+        },
+        {
+            "url": "https://www.invidious.io",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.inv.nadeko.net",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.invidious.nerdvpn.de",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://yt.chocolatemoo53.com",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://invidious.tiekoetter.com",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.threads.net",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://bsky.app",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.x.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.bereal.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.whatsapp.com",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.telegram.org",
+            "reason": "it is in the Social Media category."
+        },
+        {
+            "url": "https://www.disneyplus.com",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.max.com",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.primevideo.com",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.peacocktv.com",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.crunchyroll.com",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.paramountplus.com",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.spotify.com",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://www.soundcloud.com",
+            "reason": "it is in the Entertainment category."
+        },
+        {
+            "url": "https://store.steampowered.com",
+            "reason": "it is in the Gaming category."
+        },
+        {
+            "url": "https://www.epicgames.com",
+            "reason": "it is in the Gaming category."
+        },
+        {
+            "url": "https://www.minecraft.net",
+            "reason": "it is in the Gaming category."
+        },
+        {
+            "url": "https://www.playstation.com",
+            "reason": "it is in the Gaming category."
+        },
+        {
+            "url": "https://www.xbox.com",
+            "reason": "it is in the Gaming category."
+        },
+        {
+            "url": "https://www.nintendo.com",
+            "reason": "it is in the Gaming category."
+        },
+        {
+            "url": "https://itch.io",
+            "reason": "it is in the Gaming category."
+        },
+        {
+            "url": "https://www.gamejolt.com",
+            "reason": "it is in the Gaming category."
+        },
+        {
+            "url": "https://www.crazygames.com",
+            "reason": "it is in the Gaming category."
+        },
+        {
+            "url": "https://www.friv.com",
+            "reason": "it is in the Gaming category."
+        },
+        {
+            "url": "https://www.amazon.com",
+            "reason": "it is in the Shopping category."
+        },
+        {
+            "url": "https://www.ebay.com",
+            "reason": "it is in the Shopping category."
+        },
+        {
+            "url": "https://www.temu.com",
+            "reason": "it is in the Shopping category."
+        },
+        {
+            "url": "https://www.shein.com",
+            "reason": "it is in the Shopping category."
+        },
+        {
+            "url": "https://www.aliexpress.com",
+            "reason": "it is in the Shopping category."
+        },
+        {
+            "url": "https://www.walmart.com",
+            "reason": "it is in the Shopping category."
+        },
+        {
+            "url": "https://www.target.com",
+            "reason": "it is in the Shopping category."
+        },
+        {
+            "url": "https://www.etsy.com",
+            "reason": "it is in the Shopping category."
+        },
+        {
+            "url": "https://www.bestbuy.com",
+            "reason": "it is in the Shopping category."
+        },
+        {
+            "url": "https://www.ikea.com",
+            "reason": "it is in the Shopping category."
+        },
+        {
+            "url": "https://www.mercari.com",
+            "reason": "it is in the Shopping category."
+        },
+        {
+            "url": "https://poshmark.com",
+            "reason": "it is in the Shopping category."
+        }
+    ],
+    "unknownReason": "it is in the Unknown category."
+}

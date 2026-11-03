@@ -24,6 +24,10 @@
         "storage",
         "tabs",
         "activeTab",
-        "scripting"
+        "scripting",
+        "webNavigation"
+    ],
+    "host_permissions": [
+        "<all_urls>"
     ]
 }
